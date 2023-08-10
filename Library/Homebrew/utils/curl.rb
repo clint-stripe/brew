@@ -130,7 +130,7 @@ module Utils
 
       result = system_command curl_executable(use_homebrew_curl: use_homebrew_curl),
                               args:    curl_args(*args, **options),
-                              env:     env,
+                              env:     env.merge(extra_curl_env),
                               timeout: end_time&.remaining,
                               **command_options
 
@@ -556,6 +556,17 @@ module Utils
     end
 
     private
+
+    # Determines extra environment variables to set based on global configuration
+    # @return [Hash] A hash containing the environment variables to set for `curl`
+    def extra_curl_env
+      env = {}
+      if Homebrew::EnvConfig.curlrc? && !Homebrew::EnvConfig.curl_home.nil?
+        env["CURL_HOME"] = Homebrew::EnvConfig.curl_home
+      end
+
+      env
+    end
 
     # Parses HTTP response text from `curl` output into a hash containing the
     # information from the status line (status code and, optionally,

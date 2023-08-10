@@ -410,6 +410,20 @@ describe "Utils::Curl" do
     end
   end
 
+  describe "extra_curl_args" do
+    it "doesn't set CURL_HOME when HOMEBREW_CURLRC is unset" do
+      expect(extra_curl_env).not_to include("CURL_HOME")
+    end
+
+    it "sets CURL_HOME when HOMEBREW_CURLRC and HOMEBREW_CURL_HOME are set" do
+      ENV["HOMEBREW_CURLRC"] = "1"
+      ENV["HOMEBREW_CURL_HOME"] = "/tmp/curl_home"
+      expect(extra_curl_env).to include("CURL_HOME" => "/tmp/curl_home")
+    ensure
+      ENV["HOMEBREW_CURLRC"] = nil
+    end
+  end
+
   describe "url_protected_by_cloudflare?" do
     it "returns `true` when a URL is protected by Cloudflare" do
       expect(url_protected_by_cloudflare?(details[:cloudflare][:single_cookie])).to be(true)

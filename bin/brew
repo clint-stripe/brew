@@ -205,13 +205,6 @@ ENV_VAR_NAMES=(
   HOME SHELL PATH TERM TERMINFO TERMINFO_DIRS COLUMNS DISPLAY LOGNAME USER CI SSH_AUTH_SOCK SUDO_ASKPASS
   http_proxy https_proxy ftp_proxy no_proxy all_proxy HTTPS_PROXY FTP_PROXY ALL_PROXY
 )
-
-# When using .curlrc is permitted, also allow setting CURL_HOME
-if [[ -n "${HOMEBREW_CURLRC-}" && -n "${HOMEBREW_CURL_HOME-}" ]]
-then
-  FILTERED_ENV+=("CURL_HOME=${HOMEBREW_CURL_HOME}")
-fi
-
 # Filter all but the specific variables.
 for VAR in "${ENV_VAR_NAMES[@]}" "${!HOMEBREW_@}"
 do
