@@ -2170,10 +2170,7 @@ prefix-specific files take precedence over system-wide files (unless
   <br>If set, pass `--verbose` when invoking `curl`(1).
 
 - `HOMEBREW_CURLRC`
-  <br>If set, do not pass `--disable` when invoking `curl`(1), which disables the use of `curlrc`.
-
-- `HOMEBREW_CURL_HOME`
-  <br>If set alongside `HOMEBREW_CURLRC`, `curl`(1) will be invoked with `CURL_HOME` set to this directory.
+  <br>If set to a path, pass it with `--config` when invoking `curl`(1). If set but _not_ a valid path, do not pass `--disable`, which disables the use of `.curlrc`.
 
 - `HOMEBREW_DEBUG`
   <br>If set, always assume `--debug` when running commands.

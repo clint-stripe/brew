@@ -313,9 +313,25 @@ describe "Utils::Curl" do
       expect(curl_args(*args).first).to eq("--disable")
     end
 
-    it "doesn't return `--disable` as the first argument when HOMEBREW_CURLRC is set" do
+    it "doesn't return `--disable` as the first argument when HOMEBREW_CURLRC is set but not a path" do
       ENV["HOMEBREW_CURLRC"] = "1"
       expect(curl_args(*args).first).not_to eq("--disable")
+    end
+
+    it "doesn't return `--config` when HOMEBREW_CURLRC is unset" do
+      expect(curl_args(*args)).not_to include(a_string_starting_with("--config="))
+    end
+
+    it "returns `--config` when HOMEBREW_CURLRC is a valid path" do
+      Tempfile.create do |tmpfile|
+        path = tmpfile.path
+        ENV["HOMEBREW_CURLRC"] = path
+        # We still expect --disable
+        expect(curl_args(*args).first).to eq("--disable")
+        expect(curl_args(*args).join(" ")).to include("--config #{path}")
+      end
+    ensure
+      ENV["HOMEBREW_CURLRC"] = nil
     end
 
     it "uses `--connect-timeout` when `:connect_timeout` is Numeric" do
@@ -407,20 +423,6 @@ describe "Utils::Curl" do
       expect(curl_args(*args, show_output: nil).join(" ")).to include("--fail")
       expect(curl_args(*args).join(" ")).to include("--fail")
       expect(curl_args(*args, show_output: true).join(" ")).not_to include("--fail")
-    end
-  end
-
-  describe "extra_curl_args" do
-    it "doesn't set CURL_HOME when HOMEBREW_CURLRC is unset" do
-      expect(extra_curl_env).not_to include("CURL_HOME")
-    end
-
-    it "sets CURL_HOME when HOMEBREW_CURLRC and HOMEBREW_CURL_HOME are set" do
-      ENV["HOMEBREW_CURLRC"] = "1"
-      ENV["HOMEBREW_CURL_HOME"] = "/tmp/curl_home"
-      expect(extra_curl_env).to include("CURL_HOME" => "/tmp/curl_home")
-    ensure
-      ENV["HOMEBREW_CURLRC"] = nil
     end
   end
 

@@ -71,7 +71,16 @@ module Utils
       args = []
 
       # do not load .curlrc unless requested (must be the first argument)
-      args << "--disable" unless Homebrew::EnvConfig.curlrc?
+      curlrc = Homebrew::EnvConfig.curlrc
+      if curlrc&.start_with?("/") && File.exist?(curlrc)
+        # If the file exists, we still want to disable loading the default curlrc.
+        args << "--disable" << "--config" << curlrc
+      elsif curlrc
+        # This matches legacy behavior: `HOMEBREW_CURLRC` was a bool,
+        # omitting `--disable` when present.
+      else
+        args << "--disable"
+      end
 
       # echo any cookies received on a redirect
       args << "--cookie" << "/dev/null"
@@ -130,7 +139,7 @@ module Utils
 
       result = system_command curl_executable(use_homebrew_curl: use_homebrew_curl),
                               args:    curl_args(*args, **options),
-                              env:     env.merge(extra_curl_env),
+                              env:     env,
                               timeout: end_time&.remaining,
                               **command_options
 
@@ -556,17 +565,6 @@ module Utils
     end
 
     private
-
-    # Determines extra environment variables to set based on global configuration
-    # @return [Hash] A hash containing the environment variables to set for `curl`
-    def extra_curl_env
-      env = {}
-      if Homebrew::EnvConfig.curlrc? && !Homebrew::EnvConfig.curl_home.nil?
-        env["CURL_HOME"] = Homebrew::EnvConfig.curl_home
-      end
-
-      env
-    end
 
     # Parses HTTP response text from `curl` output into a hash containing the
     # information from the status line (status code and, optionally,

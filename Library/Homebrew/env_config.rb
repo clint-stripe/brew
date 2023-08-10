@@ -132,13 +132,9 @@ module Homebrew
         boolean:     true,
       },
       HOMEBREW_CURLRC:                           {
-        description: "If set, do not pass `--disable` when invoking `curl`(1), which disables the " \
-                     "use of `curlrc`.",
-        boolean:     true,
-      },
-      HOMEBREW_CURL_HOME:                        {
-        description: "If set alongside `HOMEBREW_CURLRC`, `curl`(1) will be invoked with `CURL_HOME` " \
-                     "set to this directory.",
+        description: "If set to a path, pass it with `--config` when invoking `curl`(1). " \
+                     "If set but _not_ a valid path, do not pass `--disable`, which disables the " \
+                     "use of `.curlrc`.",
       },
       HOMEBREW_DEBUG:                            {
         description: "If set, always assume `--debug` when running commands.",

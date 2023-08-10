@@ -58,9 +58,6 @@ module Homebrew::EnvConfig
   sig { returns(String) }
   def self.core_git_remote; end
 
-  sig { returns(T.nilable(String)) }
-  def self.curl_home; end
-
   sig { returns(String) }
   def self.curl_path; end
 
@@ -70,8 +67,8 @@ module Homebrew::EnvConfig
   sig { returns(T::Boolean) }
   def self.curl_verbose?; end
 
-  sig { returns(T::Boolean) }
-  def self.curlrc?; end
+  sig { returns(T.nilable(String)) }
+  def self.curlrc; end
 
   sig { returns(T::Boolean) }
   def self.debug?; end

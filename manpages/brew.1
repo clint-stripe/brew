@@ -3137,13 +3137,7 @@ If set, pass \fB\-\-verbose\fR when invoking \fBcurl\fR(1)\.
 \fBHOMEBREW_CURLRC\fR
 .
 .br
-If set, do not pass \fB\-\-disable\fR when invoking \fBcurl\fR(1), which disables the use of \fBcurlrc\fR\.
-.
-.TP
-\fBHOMEBREW_CURL_HOME\fR
-.
-.br
-If set alongside \fBHOMEBREW_CURLRC\fR, \fBcurl\fR(1) will be invoked with \fBCURL_HOME\fR set to this directory\.
+If set to a path, pass it with \fB\-\-config\fR when invoking \fBcurl\fR(1)\. If set but \fInot\fR a valid path, do not pass \fB\-\-disable\fR, which disables the use of \fB\.curlrc\fR\.
 .
 .TP
 \fBHOMEBREW_DEBUG\fR
