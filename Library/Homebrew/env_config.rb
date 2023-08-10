@@ -136,6 +136,10 @@ module Homebrew
                      "use of `curlrc`.",
         boolean:     true,
       },
+      HOMEBREW_CURL_HOME:                        {
+        description: "If set alongside `HOMEBREW_CURLRC`, `curl`(1) will be invoked with `CURL_HOME` " \
+                     "set to this directory.",
+      },
       HOMEBREW_DEBUG:                            {
         description: "If set, always assume `--debug` when running commands.",
         boolean:     true,
