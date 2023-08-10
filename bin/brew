@@ -209,7 +209,7 @@ ENV_VAR_NAMES=(
 # When using .curlrc is permitted, also allow setting CURL_HOME
 if [[ -n "${HOMEBREW_CURLRC-}" && -n "${HOMEBREW_CURL_HOME-}" ]]
 then
-    FILTERED_ENV+=("CURL_HOME=${HOMEBREW_CURL_HOME}")
+  FILTERED_ENV+=("CURL_HOME=${HOMEBREW_CURL_HOME}")
 fi
 
 # Filter all but the specific variables.
